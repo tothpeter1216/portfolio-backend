@@ -1,37 +1,35 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 require("dotenv").config();
-const mongoose = require("mongoose");
+const School = require("./models/school");
+const bodyParser = require("body-parser");
 
-const url = process.env.URL;
+// const cors = require("cors");
 
-mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-});
+// app.use(cors());
 
-const schoolSchema = new mongoose.Schema({
-  name: String,
-  link: String,
-  description: String,
-});
+app.use(bodyParser.json());
 
-const School = mongoose.model("School", schoolSchema);
-
-const school1 = new School({
-  name: "gf",
-  link: "www.ize",
-  description: "cooltour",
-});
-
-school1.save().then((result) => {
-  console.log("school saved!");
-  mongoose.connection.close();
-});
+app.use(express.static("build"));
 
 app.get("/", (req, res) => {
   res.send("HIII");
+});
+
+app.get("/schools", async (req, res) => {
+  const schools = await School.find({});
+  res.json(schools);
+});
+
+app.post("/schools", async (req, res) => {
+  const addedSchool = new School({
+    name: req.body.name,
+    link: req.body.link,
+    description: req.body.description,
+  });
+
+  await addedSchool.save();
+  res.json(addedSchool);
 });
 
 app.listen(process.env.PORT, () => {
