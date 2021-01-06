@@ -25,4 +25,25 @@ schoolsRouter.post("/", async (req, res, next) => {
   }
 });
 
+schoolsRouter.put("/:id", async (req, res, next) => {
+  try {
+    const school = {
+      name: req.body.name,
+      link: req.body.link,
+      description: req.body.description,
+    };
+
+    const updatedSchool = await School.findByIdAndUpdate(
+      req.params.id,
+      school,
+      {
+        new: true,
+      }
+    );
+    res.json(updatedSchool.toJSON());
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = schoolsRouter;
