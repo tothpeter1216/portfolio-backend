@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
-const schoolSchema = new mongoose.Schema({
+const hobbieSchema = new mongoose.Schema({
   name: String,
-  link: String,
-  description: String,
 });
 
 schoolSchema.set("toJSON", {
@@ -14,4 +12,4 @@ schoolSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("School", schoolSchema);
+module.exports = mongoose.model("School", hobbieSchema);
