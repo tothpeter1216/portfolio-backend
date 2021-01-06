@@ -5,6 +5,8 @@ const app = express();
 const schoolsRouter = require("./controllers/schools");
 const hobbiesRouter = require("./controllers/hobbies");
 const skillFieldsRouter = require("./controllers/skillFields");
+const codesRouter = require("./controllers/codes");
+
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
@@ -32,6 +34,7 @@ app.use(middleware.requestLogger);
 app.use("/api/schools", schoolsRouter);
 app.use("/api/hobbies", hobbiesRouter);
 app.use("/api/skillFields", skillFieldsRouter);
+app.use("/api/codes", codesRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
