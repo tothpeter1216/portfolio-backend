@@ -12,4 +12,4 @@ schoolSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("School", hobbieSchema);
+module.exports = mongoose.model("Hobbie", hobbieSchema);
