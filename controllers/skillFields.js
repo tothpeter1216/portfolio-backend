@@ -47,6 +47,26 @@ skillFieldsRouter.put("/:id/skills", async (req, res, next) => {
   }
 });
 
+skillFieldsRouter.delete("/:id/skills", async (req, res, next) => {
+  try {
+    const deleteSkillName = req.body.skillName;
+    const skillField = await SkillField.findById(req.params.id);
+    skillField.skill = skillField.skill.filter((s) => {
+      return s.skillName !== deleteSkillName;
+    });
+    const updatedSkillField = await SkillField.findByIdAndUpdate(
+      req.params.id,
+      skillField,
+      {
+        new: true,
+      }
+    );
+    res.json(updatedSkillField);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // skillFieldsRouter.put("/:id", async (req, res, next) => {
 //   try {
 //     const skillField = {
