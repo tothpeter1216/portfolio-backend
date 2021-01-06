@@ -1,37 +1,10 @@
-const express = require("express");
-const app = express();
-require("dotenv").config();
-const School = require("./models/school");
-const bodyParser = require("body-parser");
+const app = require("./app"); // varsinainen Express-sovellus
+const http = require("http");
+const config = require("./utils/config");
+const logger = require("./utils/logger");
 
-// const cors = require("cors");
-
-// app.use(cors());
-
-app.use(bodyParser.json());
-
-app.use(express.static("build"));
-
-app.get("/", (req, res) => {
-  res.send("HIII");
-});
-
-app.get("/schools", async (req, res) => {
-  const schools = await School.find({});
-  res.json(schools);
-});
-
-app.post("/schools", async (req, res) => {
-  const addedSchool = new School({
-    name: req.body.name,
-    link: req.body.link,
-    description: req.body.description,
-  });
-
-  await addedSchool.save();
-  res.json(addedSchool);
-});
+const server = http.createServer(app);
 
 app.listen(process.env.PORT, () => {
-  console.log("The server is runing on " + process.env.PORT);
+  logger.info("The server is runing on " + config.PORT);
 });
