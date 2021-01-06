@@ -46,4 +46,13 @@ schoolsRouter.put("/:id", async (req, res, next) => {
   }
 });
 
+schoolsRouter.delete("/:id", async (req, res, next) => {
+  try {
+    await School.findByIdAndRemove(req.params.id);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = schoolsRouter;
