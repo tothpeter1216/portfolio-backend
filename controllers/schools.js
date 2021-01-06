@@ -1,11 +1,7 @@
 const schoolsRouter = require("express").Router();
 const School = require("../models/school");
 
-schoolsRouter.get("/", (req, res) => {
-  res.send("HIII");
-});
-
-schoolsRouter.get("/schools", async (req, res, next) => {
+schoolsRouter.get("/", async (req, res, next) => {
   try {
     const schools = await School.find({});
     res.json(schools);
@@ -14,7 +10,7 @@ schoolsRouter.get("/schools", async (req, res, next) => {
   }
 });
 
-schoolsRouter.post("/schools", async (req, res, next) => {
+schoolsRouter.post("/", async (req, res, next) => {
   try {
     const addedSchool = new School({
       name: req.body.name,
