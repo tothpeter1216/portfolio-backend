@@ -3,7 +3,7 @@ const Hobbie = require("../models/hobbie");
 
 hobbiesRouter.get("/", async (req, res, next) => {
   try {
-    const hobbie = await School.find({});
+    const hobbie = await Hobbie.find({});
     res.json(hobbie);
   } catch (error) {
     next(error);
