@@ -1,4 +1,5 @@
 const skillFieldsRouter = require("express").Router();
+const { findByIdAndUpdate, findById } = require("../models/skillField");
 const SkillField = require("../models/skillField");
 
 skillFieldsRouter.get("/", async (req, res, next) => {
@@ -19,6 +20,28 @@ skillFieldsRouter.post("/", async (req, res, next) => {
 
     await addedSkillFields.save();
     res.json(addedSkillFields);
+  } catch (error) {
+    next(error);
+  }
+});
+
+skillFieldsRouter.put("/:id/skills", async (req, res, next) => {
+  try {
+    const newSkill = {
+      skillName: req.body.skillName,
+      level: req.body.level,
+    };
+
+    const skillField = await SkillField.findById(req.params.id);
+    skillField.skill = [...skillField.skill, newSkill];
+    const updatedSkillField = await SkillField.findByIdAndUpdate(
+      req.params.id,
+      skillField,
+      {
+        new: true,
+      }
+    );
+    res.json(updatedSkillField);
   } catch (error) {
     next(error);
   }
