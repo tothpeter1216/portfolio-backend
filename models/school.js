@@ -2,19 +2,19 @@ const mongoose = require("mongoose");
 
 const url = process.env.MONGODB_URI;
 
-mongoose
-  .connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-  })
-  .then((result) => {
+(async () => {
+  try {
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    });
     console.log("connected to MongoDB");
-  })
-  .catch((error) => {
+  } catch (error) {
     console.log("error connecting to MongoDB:", error.message);
-  });
+  }
+})();
 
 const schoolSchema = new mongoose.Schema({
   name: String,
