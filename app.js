@@ -2,6 +2,7 @@ const config = require("./utils/config");
 const express = require("express");
 const app = express();
 // const cors = require("cors");
+const allRouter = require("./controllers/allData");
 const schoolsRouter = require("./controllers/schools");
 const hobbiesRouter = require("./controllers/hobbies");
 const skillFieldsRouter = require("./controllers/skillFields");
@@ -31,6 +32,7 @@ app.use(express.static("build"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
+app.use("/api/all", allRouter);
 app.use("/api/schools", schoolsRouter);
 app.use("/api/hobbies", hobbiesRouter);
 app.use("/api/skillFields", skillFieldsRouter);
