@@ -67,27 +67,6 @@ skillFieldsRouter.delete("/:id/skills", async (req, res, next) => {
   }
 });
 
-// skillFieldsRouter.put("/:id", async (req, res, next) => {
-//   try {
-//     const skillField = {
-//       name: req.body.name,
-//       link: req.body.link,
-//       description: req.body.description,
-//     };
-
-//     const updatedSkillFields = await SkillField.findByIdAndUpdate(
-//       req.params.id,
-//       skillField,
-//       {
-//         new: true,
-//       }
-//     );
-//     res.json(updatedSkillFields.toJSON());
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
 skillFieldsRouter.delete("/:id", async (req, res, next) => {
   try {
     await SkillField.findByIdAndRemove(req.params.id);
