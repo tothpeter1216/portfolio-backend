@@ -1,5 +1,4 @@
 const skillFieldsRouter = require("express").Router();
-const { findByIdAndUpdate, findById } = require("../models/skillField");
 const SkillField = require("../models/skillField");
 
 skillFieldsRouter.get("/", async (req, res, next) => {
