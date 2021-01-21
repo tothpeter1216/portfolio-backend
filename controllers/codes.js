@@ -15,9 +15,8 @@ codesRouter.post("/", async (req, res, next) => {
     const addedCode = new Code({
       name: req.body.name,
       description: req.body.description,
-      // technologies: req.body.technologies,
       gitHub: req.body.gitHub,
-      photo: req.body.photo,
+      websiteLinkText: req.body.websiteLinkText,
       website: req.body.website,
     });
 
@@ -42,9 +41,8 @@ codesRouter.put("/:id", async (req, res, next) => {
     const code = {
       name: req.body.name,
       description: req.body.description,
-      // technologies: req.body.technologies,
       gitHub: req.body.gitHub,
-      photo: req.body.photo,
+      websiteLinkText: req.body.websiteLinkText,
       website: req.body.website,
     };
 

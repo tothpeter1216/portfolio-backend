@@ -5,7 +5,7 @@ const codeSchema = new mongoose.Schema({
   description: String,
   technologies: [String],
   gitHub: String,
-  photo: String,
+  websiteLinkText: String,
   website: String,
 });
 
