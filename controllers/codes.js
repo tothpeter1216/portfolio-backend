@@ -16,6 +16,7 @@ codesRouter.post("/", async (req, res, next) => {
       name: req.body.name,
       description: req.body.description,
       gitHub: req.body.gitHub,
+      gitHub2: req.body.gitHub2,
       websiteLinkText: req.body.websiteLinkText,
       website: req.body.website,
     });
@@ -42,6 +43,7 @@ codesRouter.put("/:id", async (req, res, next) => {
       name: req.body.name,
       description: req.body.description,
       gitHub: req.body.gitHub,
+      gitHub2: req.body.gitHub2,
       websiteLinkText: req.body.websiteLinkText,
       website: req.body.website,
     };
