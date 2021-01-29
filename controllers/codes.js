@@ -1,5 +1,6 @@
 const codesRouter = require("express").Router();
 const Code = require("../models/code");
+const auth = require("../utils/auth");
 
 codesRouter.get("/", async (req, res, next) => {
   try {
@@ -12,6 +13,12 @@ codesRouter.get("/", async (req, res, next) => {
 
 codesRouter.post("/", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const addedCode = new Code({
       name: req.body.name,
       description: req.body.description,
@@ -39,6 +46,12 @@ codesRouter.get("/:id", async (req, res, next) => {
 
 codesRouter.put("/:id", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const code = {
       name: req.body.name,
       description: req.body.description,
@@ -59,6 +72,12 @@ codesRouter.put("/:id", async (req, res, next) => {
 
 codesRouter.delete("/:id", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     await Code.findByIdAndRemove(req.params.id);
     res.status(204).end();
   } catch (error) {
@@ -68,6 +87,12 @@ codesRouter.delete("/:id", async (req, res, next) => {
 
 codesRouter.put("/:id/technology", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const code = await Code.findById(req.params.id);
     code.technologies = [...code.technologies, req.body.technology];
     await Code.findByIdAndUpdate(req.params.id, code);
@@ -79,6 +104,12 @@ codesRouter.put("/:id/technology", async (req, res, next) => {
 
 codesRouter.delete("/:id/technology", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const removableTech = req.body.technology;
     const code = await Code.findById(req.params.id);
     code.technologies = code.technologies.filter((tech) => {

@@ -1,5 +1,7 @@
 const hobbiesRouter = require("express").Router();
 const Hobbie = require("../models/hobbie");
+const jwt = require("jsonwebtoken");
+const auth = require("../utils/auth");
 
 hobbiesRouter.get("/", async (req, res, next) => {
   try {
@@ -12,6 +14,12 @@ hobbiesRouter.get("/", async (req, res, next) => {
 
 hobbiesRouter.post("/", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const addedHobbie = new Hobbie({
       name: req.body.name,
     });
@@ -25,6 +33,11 @@ hobbiesRouter.post("/", async (req, res, next) => {
 
 hobbiesRouter.put("/:id", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(request);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
     const hobbie = {
       name: req.body.name,
     };
@@ -44,6 +57,12 @@ hobbiesRouter.put("/:id", async (req, res, next) => {
 
 hobbiesRouter.delete("/:id", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(request);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     await Hobbie.findByIdAndRemove(req.params.id);
     res.status(204).end();
   } catch (error) {
