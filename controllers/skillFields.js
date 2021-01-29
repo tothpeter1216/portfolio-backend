@@ -1,5 +1,6 @@
 const skillFieldsRouter = require("express").Router();
 const SkillField = require("../models/skillField");
+const auth = require("../utils/auth");
 
 skillFieldsRouter.get("/", async (req, res, next) => {
   try {
@@ -12,6 +13,12 @@ skillFieldsRouter.get("/", async (req, res, next) => {
 
 skillFieldsRouter.post("/", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const addedSkillFields = new SkillField({
       skillField: req.body.skillField,
       skill: [],
@@ -26,6 +33,12 @@ skillFieldsRouter.post("/", async (req, res, next) => {
 
 skillFieldsRouter.put("/:id/skills", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const newSkill = {
       skillName: req.body.skillName,
       level: req.body.level,
@@ -48,6 +61,12 @@ skillFieldsRouter.put("/:id/skills", async (req, res, next) => {
 
 skillFieldsRouter.delete("/:id/skills", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     const deleteSkillName = req.body.skillName;
     const skillField = await SkillField.findById(req.params.id);
     skillField.skill = skillField.skill.filter((s) => {
@@ -68,6 +87,12 @@ skillFieldsRouter.delete("/:id/skills", async (req, res, next) => {
 
 skillFieldsRouter.delete("/:id", async (req, res, next) => {
   try {
+    const token = auth.getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
     await SkillField.findByIdAndRemove(req.params.id);
     res.status(204).end();
   } catch (error) {
